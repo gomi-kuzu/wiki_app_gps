@@ -47,8 +47,10 @@
 
                for (let i=0; i<show_n; i++){
                  var title = JSON.stringify(data1["query"]["geosearch"][i]["title"]);
+               　var dist = JSON.stringify(data1["query"]["geosearch"][i]["dist"]);
+
                   console.log(title);
-                  document.getElementById('result'+ String(i)).textContent = title.slice(1, -1) ;               
+                  document.getElementById('result'+ String(i)).textContent = title.slice(1, -1) +" (" + dist + " M)" ;               
                }
                // 4. JavaScriptオブジェクトをJSONに変換
       				const data2 = JSON.stringify(data1);
