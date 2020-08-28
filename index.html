@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+   <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+   <script src="js/materialize.js"></script>
+    <title>Sample</title>
+  </head>
+   <body>
+
+<div class="container">
+　<div class="row">
+      <div class="col s12 center">
+         <div id="send-button">
+            <a class="waves-effect waves-light btn-large z-depth-4">半径10kmの記事タイトルを取得！</a>
+         </div>      
+      </div>
+    </div>
+   </div>
+   <div id="result0"></div>
+   <div id="result1"></div>
+   <div id="result2"></div>
+   <div id="result3"></div>
+   <div id="result4"></div>
+      <script type="text/javascript">
+
+      function get_wiki_info(url){
+            // 1. $.getJSONメソッドで通信を行う
+         $.getJSON(url)
+
+            // 2. doneは、通信に成功した時に実行される
+            //  引数のdata1は、通信で取得したデータ
+            .done(function(data1,textStatus,jqXHR) {
+               $("#span1").text(jqXHR.status); //例：200
+               $("#span2").text(textStatus); //例：success
+
+               // 3. キーを指定して値を表示
+               if (data1["query"]["geosearch"].length >= 5){
+                  var show_n = 5;
+               }
+               else{
+                  var show_n = data1["query"]["geosearch"].length;
+               }
+
+               for (let i=0; i<show_n; i++){
+                 var title = JSON.stringify(data1["query"]["geosearch"][i]["title"]);
+                  console.log(title);
+                  document.getElementById('result'+ String(i)).textContent = title.slice(1, -1) ;               
+               }
+               // 4. JavaScriptオブジェクトをJSONに変換
+      				const data2 = JSON.stringify(data1);
+      				console.log(data2); //コンソールにJSONが表示される
+            })
+            // 5. failは、通信に失敗した時に実行される
+            .fail(function(jqXHR, textStatus, errorThrown ) {
+               $("#span1").text(jqXHR.status); //例：404
+               $("#span2").text(textStatus); //例：error
+               $("#span3").text(errorThrown); //例：NOT FOUND
+            })
+            // 6. alwaysは、成功/失敗に関わらず実行される
+            .always(function() {
+               $("#span4").text("完了しました");
+            });
+      }
+
+
+      document.getElementById("send-button").onclick = function() {      
+      // ユーザーの端末がGeoLocation APIに対応しているかの判定
+      // 対応している場合
+      var lat = "";
+      var lng = "";
+      var url = "";
+      var radius = "10000";
+
+      if( navigator.geolocation )
+      {
+         // 現在地を取得
+         navigator.geolocation.getCurrentPosition(
+
+            // [第1引数] 取得に成功した場合の関数
+            function( position )
+            {
+               // 取得したデータの整理
+               var data = position.coords ;
+
+               // データの整理
+               lat = data.latitude ;
+               lng = data.longitude ;
+
+               // アラート表示
+      //			alert( "あなたの現在位置は、\n[" + lat + "," + lng + "]\nです。" ) ;
+
+               url = "https://ja.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&list=geosearch&gsradius=" + radius +"&gscoord=" + lat + "%7C" + lng + "&origin=*";
+               get_wiki_info(url);
+            }
+            ,
+
+            // [第2引数] 取得に失敗した場合の関数
+            function( error )
+            {
+               // エラーコード(error.code)の番号
+               // 0:UNKNOWN_ERROR				原因不明のエラー
+               // 1:PERMISSION_DENIED			利用者が位置情報の取得を許可しなかった
+               // 2:POSITION_UNAVAILABLE		電波状況などで位置情報が取得できなかった
+               // 3:TIMEOUT					位置情報の取得に時間がかかり過ぎた…
+
+               // エラー番号に対応したメッセージ
+               var errorInfo = [
+                  "原因不明のエラーが発生しました…。" ,
+                  "位置情報の取得が許可されませんでした…。" ,
+                  "電波状況などで位置情報が取得できませんでした…。" ,
+                  "位置情報の取得に時間がかかり過ぎてタイムアウトしました…。"
+               ] ;
+
+               // エラー番号
+               var errorNo = error.code ;
+
+               // エラーメッセージ
+               var errorMessage = "[エラー番号: " + errorNo + "]\n" + errorInfo[ errorNo ] ;
+
+               // アラート表示
+               alert( errorMessage ) ;
+
+            } ,
+
+            // [第3引数] オプション
+            {
+               "enableHighAccuracy": false,
+               "timeout": 8000,
+               "maximumAge": 2000,
+            }
+
+         ) ;
+      }
+
+      // 対応していない場合
+      else
+      {
+         // エラーメッセージ
+         var errorMessage = "お使いの端末は、GeoLacation APIに対応していません。" ;
+
+         // アラート表示
+         alert( errorMessage ) ;
+
+      }
+      }
+      </script>
+   </body>
+</html>
