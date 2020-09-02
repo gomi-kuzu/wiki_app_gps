@@ -6,6 +6,16 @@
     <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
    <script src="js/materialize.js"></script>
+   <!-- アドレスバー等のブラウザのUIを非表示 -->
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <!-- default（Safariと同じ） / black（黒） / black-translucent（ステータスバーをコンテンツに含める） -->
+   <meta name="apple-mobile-web-app-status-bar-style" content="black">
+   <!-- ホーム画面に表示されるアプリ名 -->
+   <meta name="apple-mobile-web-app-title" content="Wiki refachi beta">
+   <!-- ホーム画面に表示されるアプリアイコン -->
+   <link rel="apple-touch-icon" href="images/icon_152.png">
+   <!-- ウェブアプリマニフェストの読み込み -->
+   <link rel="manifest" href="manifest.json">
     <title>Wiki_refachi_beta</title>
   </head>
    <body>
@@ -27,8 +37,16 @@
    <div id="result4"></div>
       <script type="text/javascript">
 
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then((reg) => {
+        console.log('Service worker registered.', reg);
+      });
+}
+
+
       function get_wiki_info(url){
-            // 1. $.getJSONメソッドで通信を行う
+      // 1. $.getJSONメソッドで通信を行う
          $.getJSON(url)
 
             // 2. doneは、通信に成功した時に実行される
