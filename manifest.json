@@ -2,11 +2,11 @@
     "name":"Wiki refachi beta",
     "short_name":"Wiki refachi beta",
     "icons": [{
-        "src": "./images/icon_152.png",
+        "src": "/images/icon_152.png",
         "sizes":"152x152",
         "type": "image/png"
       }],
-    "start_url": "https://gomi-kuzu.github.io/wiki_app_gps/s",
+    "start_url": "https://gomi-kuzu.github.io/wiki_app_gps",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#FFFFFF"
