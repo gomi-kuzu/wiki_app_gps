@@ -2,7 +2,7 @@
     "name":"Wiki refachi beta",
     "short_name":"Wiki refachi beta",
     "icons": [{
-        "src": "/images/icon_152.png",
+        "src": "wiki_app_gps/images/icon_152.png",
         "sizes":"152x152",
         "type": "image/png"
       }],
