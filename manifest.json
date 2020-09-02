@@ -6,7 +6,7 @@
         "sizes":"152x152",
         "type": "image/png"
       }],
-    "start_url": "/index.html?utm_source=homescreen",
+    "start_url": "https://gomi-kuzu.github.io/wiki_app_gps/s",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#FFFFFF"
