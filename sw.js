@@ -1,9 +1,9 @@
 const STATIC_DATA = [
   'index.html',
-  '/css/materialize.css',
-  '/css/materialize.min.css',
-  '/js/materialize.js',
-  '/js/materialize.min.js',
+  // '/css/materialize.css',
+  // '/css/materialize.min.css',
+  // '/js/materialize.js',
+  // '/js/materialize.min.js',
 ];
 
 self.addEventListener('install', function(e) {
